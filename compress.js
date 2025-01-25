@@ -52,6 +52,9 @@ const asciiToEncoded = (asciiValues, chart) => {
 const padBinarySequence = (binarySequence) =>
     binarySequence.padEnd(Math.ceil(binarySequence.length / 8) * 8, "0");
 
+// counting the padding length
+const calculatePaddingLength = (binarySequence) => Math.ceil(binarySequence.length / 8) * 8 - binarySequence.length; 
+
 // Converts a binary sequence to a buffer (byte array).
 const compressToBuffer = (binarySequence) => {
     const byteArray = [];
@@ -73,16 +76,19 @@ const serializeHuffmanChart = (chart) => {
 };
 
 // add fixed code length to buffer as metadata
-const addMetadataAndChart = (compressedBuffer, fixedLength, chart) => {
+const addMetadataAndChart = (compressedBuffer, fixedLength, chart, paddingLength) => {
     const metadataBuffer = Buffer.alloc(1); // Assuming 1 byte for fixedLength
     metadataBuffer.writeUInt8(fixedLength, 0); // Write fixedLength to the first byte
+
+    const paddingLengthBuffer = Buffer.alloc(1);
+    paddingLengthBuffer.writeUInt8(paddingLength, 0);
 
     const chartBuffer = serializeHuffmanChart(chart); // Serialize the Huffman chart into a Buffer
 
     const chartSizeBuffer = Buffer.alloc(4); // Create a buffer for the chart size metadata (4 bytes for the size in bytes)
     chartSizeBuffer.writeUInt32BE(chartBuffer.length, 0); // Write chart size as a 32-bit unsigned integer
 
-    return Buffer.concat([metadataBuffer, chartSizeBuffer, chartBuffer, compressedBuffer]);
+    return Buffer.concat([metadataBuffer, paddingLengthBuffer, chartSizeBuffer, chartBuffer, compressedBuffer]);
 };
 
 // Main function to perform the compression.
@@ -98,9 +104,10 @@ const compressFile = (inputFile, outputFile) => {
 
     const binarySequence = encodedValues.join("");
     const paddedBinarySequence = padBinarySequence(binarySequence);
+    const paddingLength = calculatePaddingLength(binarySequence);
 
     const compressedData = compressToBuffer(paddedBinarySequence);
-    const compressedDataWithMetadata = addMetadataAndChart(compressedData, codeLength, chart);
+    const compressedDataWithMetadata = addMetadataAndChart(compressedData, codeLength, chart, paddingLength);
 
     fs.writeFileSync(outputFile, compressedDataWithMetadata);
     console.log(`File compressed successfully to ${outputFile}`);
