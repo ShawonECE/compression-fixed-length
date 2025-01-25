@@ -1,0 +1,14 @@
+{
+  "name": "compresso",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compress": "node compress.js",
+    "decompress": "node decompress.js"
+  },
+  "author": "shawon",
+  "license": "ISC",
+  "description": ""
+}
