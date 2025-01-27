@@ -88,4 +88,4 @@ const decompress = (inputFile, outputFile) => {
 };
 
 // Execute the decompression process
-decompress("compressed.bin", "output.txt");
+decompress("compressed.bin", "output.yml");

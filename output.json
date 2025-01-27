@@ -1,0 +1,25 @@
+{
+    "name": "John Doe",
+    "age": 30,
+    "city": "New York",
+    "is_active": true,
+    "hobbies": [
+        "reading",
+        "hiking",
+        "coding"
+    ],
+    "address": {
+        "street": "123 Main St",
+        "zipcode": "10001"
+    },
+    "friends": [
+        {
+            "name": "Jane Smith",
+            "age": 28
+        },
+        {
+            "name": "David Lee",
+            "age": 32
+        }
+    ]
+}

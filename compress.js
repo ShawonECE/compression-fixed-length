@@ -115,7 +115,7 @@ const compressFile = (inputFile, outputFile) => {
 
 // Run the compression
 try {
-    compressFile("./input2.txt", "compressed.bin");
+    compressFile("./input.yml", "compressed.bin");
 } catch (err) {
     console.error(`Error: ${err.message}`);
 }

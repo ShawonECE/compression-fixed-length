@@ -1,0 +1,10 @@
+name: John Doe
+age: 30
+city: New York
+hobbies:
+  - reading
+  - hiking
+  - coding
+address:
+  street: 123 Main St
+  zipcode: 10001
